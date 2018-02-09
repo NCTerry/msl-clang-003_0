@@ -104,7 +104,10 @@ alloc_status mem_init() {
     // ensure that it's called only once until mem_free
     // allocate the pool store with initial capacity
     // note: holds pointers only, other functions to allocate/deallocate
+    if (pool_store==NULL) {
+        pool_store = malloc(MEM_POOL_STORE_INIT_CAPACITY * sizeof(pool_mgr_pt));
 
+    }
     return ALLOC_FAIL;
 }
 
