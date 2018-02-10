@@ -19,18 +19,19 @@ int main(int argc, char *argv[]) {
         pool_mgr->gap_ix[i].node = (node_pt)malloc(sizeof(node_t));
         pool_mgr->gap_ix[i].node = NULL;
 
-        if (i < 10) {
-
+        if (i < 10)
+        {
             pool_mgr->gap_ix[i].node = & stuff;
-
             pool_mgr->gap_ix[i].size = 100 * i;
         }
     }
+
     pool_mgr->pool.num_gaps = 10;
     pool_mgr->gap_ix[9].size = 130;
-    alloc_status check;
     pool_mgr->gap_ix_capacity = MEM_GAP_IX_INIT_CAPACITY;
+    alloc_status check;
     check = _mem_sort_gap_ix(pool_mgr);
+
 
     pool_mgr->pool.num_gaps = 11;
     pool_mgr->gap_ix[10].size = 1;

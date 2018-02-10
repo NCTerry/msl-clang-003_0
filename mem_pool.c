@@ -714,22 +714,27 @@ static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
 // note: only called by _mem_add_to_gap_ix, which appends a single entry
 static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
 
-
-
 // array size
     pool_mgr->pool.num_gaps;  // this is where number of active gaps are
 
 
     int c, d;
-    pool_mgr->gap_ix; // array neeing sorting
+    pool_mgr->gap_ix; // array needing sorting
     //pool_mgr->gap_ix[0].size;// field
 
     gap_t temp;
-
+    int i, nullNode=0;
+/*
+    while(pool_mgr->gap_ix[i].node != NULL)
+    {
+        nullNode = i;
+        printf("\nnullNode = %i", nullNode);
+        i++;
+    }
+*/
     printf("\nStart Sizeof = ");
     //printf(sizeof(pool_mgr->gap_ix));
-    for (c = 0; c <= sizeof(pool_mgr->gap_ix)+1; c++) //sizeof = 9
-    //for (int count = 0; count < 10; count++)
+    for (c = 0; c <= pool_mgr->pool.num_gaps; c++) //sizeof = 9
     {
         printf("\n c = %d", c);
         printf("\npool_mgr->gap_ix            = %i", pool_mgr->gap_ix);
@@ -746,13 +751,17 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
         //printf("\npool_mgr->gap_ix_capacity[c] = %i", pool_mgr->gap_ix_capacity[c]);
         printf("\npool_mgr->gap_ix[c].size     = %i", pool_mgr->gap_ix[c].size);
         printf("\npool_mgr->gap_ix[c].node     = %i", pool_mgr->gap_ix[c].node);
+        if (pool_mgr->gap_ix[c].node == NULL)
+        {
+            printf("\nJust Hit a NULL");
+        }
         printf("\n\n---------------------------");
     }
 
     //find the size of the last node
-    for (c=0;   c<=(sizeof(pool_mgr->gap_ix)+1);   c++)
+    for (c=0;   c<pool_mgr->pool.num_gaps;   c++)
     {
-        for (d=0;   d<=(sizeof(pool_mgr->gap_ix));   d++)
+        for (d=0;   d<pool_mgr->pool.num_gaps-1;   d++)
         {
             if (pool_mgr->gap_ix[d].size > pool_mgr->gap_ix[d+1].size)
             {
@@ -768,7 +777,7 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
     }
 
 
-    for (c = 0; c <= sizeof(pool_mgr->gap_ix)+1; c++) //sizeof = 9
+    for (c = 0; c <= pool_mgr->pool.num_gaps; c++) //sizeof = 9
         //for (int count = 0; count < 10; count++)
     {
         printf("\n c = %d", c);
@@ -792,7 +801,7 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
 
 
     printf("Sorted list in ascending order: \n");
-    for (c=0; c<=sizeof(pool_mgr->gap_ix)+1; c++)
+    for (c=0; c<pool_mgr->pool.num_gaps; c++)
     {
         printf("\nc = ", c);
         printf("%d", pool_mgr->gap_ix[c]);
